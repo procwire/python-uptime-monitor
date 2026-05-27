@@ -9,7 +9,7 @@ from datetime import datetime
 
 URLS_TO_MONITOR = [
     "https://example.com",
-    "https://api.example.com/health"
+    "https://www.procwire.com/null"
 ]
 
 TIMEOUT_SECONDS = 10
