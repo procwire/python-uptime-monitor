@@ -9,7 +9,7 @@ from datetime import datetime
 
 URLS_TO_MONITOR = [
     "https://example.com",
-    "https://www.procwire.com/null"
+    "https://nethub-cyber.blogspot.com/2025/09/how-to-test-your-wi-fi-security-on.html"
 ]
 
 TIMEOUT_SECONDS = 10
