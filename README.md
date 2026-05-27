@@ -58,13 +58,17 @@ To test alerts, temporarily change one of your URLs in `monitor.py` to `https://
 
 ---
 
-## 💡 Ideas for Extending This
+## 💡 Real-World Uses for This Monitor
+This type of Python uptime monitoring system can be used for much more than websites.
 
-- Track and log response times
-- Monitor SSL certificate expiration dates
-- Store outage history in a database
-- Generate weekly uptime reports
-- Monitor authenticated APIs with custom headers
+- Monitoring personal blogs
+- Checking automation APIs
+- Tracking Discord bot health endpoints
+- Watching VPS landing pages
+- Monitoring portfolio sites
+- Checking internal tools for clients
+
+Once you understand this workflow, you can automate monitoring for almost anything online.
 
 ---
 
