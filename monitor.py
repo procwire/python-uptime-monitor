@@ -9,10 +9,12 @@ from datetime import datetime
 
 URLS_TO_MONITOR = [
     "https://example.com",
-    "https://bwaila.blogspot.com/2026/05/what-is-a-webhook-beginner-guide.html"
+    "https://api.example.com/health"
 ]
 
 TIMEOUT_SECONDS = 10
+MAX_RETRIES = 2          # Number of retries before treating a site as down
+RETRY_DELAY_SECONDS = 3  # Seconds to wait between retries
 
 WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
 
@@ -57,26 +59,41 @@ def send_alert(message):
         print(f"Failed to send alert: {e}")
 
 # ==============================
-# CHECK WEBSITE
+# CHECK WEBSITE (with retries)
 # ==============================
 
 def check_website(url):
-    try:
-        response = requests.get(url, timeout=TIMEOUT_SECONDS)
+    last_error = None
 
-        if not response.ok:
-            return False, f"Website issue detected: {url} returned {response.status_code}"
+    for attempt in range(1 + MAX_RETRIES):
+        try:
+            response = requests.get(url, timeout=TIMEOUT_SECONDS)
 
-        return True, None
+            if response.ok:
+                return True, None
 
-    except requests.exceptions.Timeout:
-        return False, f"Timeout detected for {url}"
+            # Some APIs deliberately return non-2xx codes even when healthy.
+            # If that applies to your endpoint, you can adjust this check.
+            last_error = f"Website issue detected: {url} returned {response.status_code}"
 
-    except requests.exceptions.ConnectionError:
-        return False, f"Connection error for {url}"
+        except requests.exceptions.Timeout:
+            last_error = f"Timeout detected for {url}"
 
-    except Exception as e:
-        return False, f"Unexpected error for {url}: {e}"
+        except requests.exceptions.ConnectionError:
+            last_error = f"Connection error for {url}"
+
+        except requests.exceptions.SSLError:
+            last_error = f"SSL certificate error for {url} — certificate may be expired or invalid"
+
+        except Exception as e:
+            last_error = f"Unexpected error for {url}: {e}"
+
+        if attempt < MAX_RETRIES:
+            print(f"Attempt {attempt + 1} failed for {url}. Retrying in {RETRY_DELAY_SECONDS}s...")
+            import time
+            time.sleep(RETRY_DELAY_SECONDS)
+
+    return False, last_error
 
 # ==============================
 # MAIN
@@ -99,7 +116,7 @@ def main():
         if not is_up and previous_status == "UP":
             send_alert(f"🚨 Website DOWN: {error_message}")
             state[url] = "DOWN"
-            print(error_message)
+            print(f"ALERT SENT: {error_message}")
 
         # Website recovered
         elif is_up and previous_status == "DOWN":
@@ -109,7 +126,7 @@ def main():
 
         # No status change
         else:
-            print(f"No change for {url}")
+            print(f"No change for {url} (currently {previous_status})")
 
     save_state(state)
 
