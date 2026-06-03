@@ -14,6 +14,8 @@ URLS_TO_MONITOR = [
 
 TIMEOUT_SECONDS = 10
 
+WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
+
 STATE_FILE = "monitor_state.json"
 
 # ==============================
@@ -38,25 +40,15 @@ def save_state(state):
         json.dump(state, file)
 
 # ==============================
-# SEND ALERT (TELEGRAM)
+# SEND ALERT
 # ==============================
 
 def send_alert(message):
-    bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
-
-    if not bot_token or not chat_id:
-        print("ERROR: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing from environment variables.")
-        return
-
-    telegram_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     payload = {
-        "chat_id": chat_id,
-        "text": message
+        "content": message
     }
     try:
-        response = requests.post(telegram_url, json=payload, timeout=10)
-        print(f"Telegram response: {response.status_code} {response.text}")
+        requests.post(WEBHOOK_URL, json=payload, timeout=10)
     except Exception as e:
         print(f"Failed to send alert: {e}")
 
