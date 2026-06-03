@@ -2,8 +2,8 @@ name: Website Uptime Monitor
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # Runs every 15 minutes
-  workflow_dispatch:          # Allows manual runs from GitHub Actions tab
+    - cron: '*/15 * * * *'  # Targets every 15 minutes; actual runs may be slightly delayed
+  workflow_dispatch:          # Allows manual runs from the GitHub Actions tab
 
 permissions:
   contents: write
@@ -32,8 +32,7 @@ jobs:
 
       - name: Run Monitor Script
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python monitor.py
 
       - name: Save updated state
