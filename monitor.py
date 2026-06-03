@@ -9,7 +9,7 @@ from datetime import datetime
 
 URLS_TO_MONITOR = [
     "https://example.com",
-    "https://api.example.com/health"
+    "https://bwaila.blogspot.com/2026/05/what-is-a-webhook-beginner-guide.html"
 ]
 
 TIMEOUT_SECONDS = 10
