@@ -46,7 +46,7 @@ The monitor runs automatically every 15 minutes. You can also trigger it manuall
 
 ## 🔔 Alert Platforms
 
-Discord is configured by default. The full blog post includes step-by-step instructions for switching to **Slack** or **Telegram** with just a few lines changed.
+Discord is configured by default. The [full blog post](https://www.procwire.com/2026/06/python-website-uptime-monitor.html) includes step-by-step instructions for switching to **Slack** or **Telegram** with just a few lines changed.
 
 ---
 
@@ -74,7 +74,7 @@ Once you understand this workflow, you can automate monitoring for almost anythi
 
 ## 📖 Full Guide
 
-This repo accompanies the blog post **"Build a Free Website Uptime Monitor with Python, Discord & GitHub Actions"** — read it for a complete walkthrough of every file, concept, and configuration option.
+This repo accompanies the blog post [**"How to Build a Free Python Uptime Monitor with GitHub Actions"**](https://www.procwire.com/2026/06/python-website-uptime-monitor.html) — read it for a complete walkthrough of every file, concept, and configuration option.
 
 ---
 
