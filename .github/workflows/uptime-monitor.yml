@@ -32,7 +32,7 @@ jobs:
 
       - name: Run Monitor Script
         env:
-          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: python monitor.py
 
       - name: Save updated state
