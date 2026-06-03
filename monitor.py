@@ -45,7 +45,7 @@ def save_state(state):
 
 def send_alert(message):
     payload = {
-        "content": message
+        "text": message
     }
     try:
         requests.post(WEBHOOK_URL, json=payload, timeout=10)
