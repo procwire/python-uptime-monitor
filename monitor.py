@@ -46,15 +46,11 @@ def save_state(state):
 # ==============================
 
 def send_alert(message):
-    bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
-    telegram_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     payload = {
-        "chat_id": chat_id,
-        "text": message
+        "content": message
     }
     try:
-        requests.post(telegram_url, json=payload, timeout=10)
+        requests.post(WEBHOOK_URL, json=payload, timeout=10)
     except Exception as e:
         print(f"Failed to send alert: {e}")
 
